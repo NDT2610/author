@@ -3,14 +3,15 @@ import { BoardController } from './board.controller';
 import { BoardService } from './board.service';
 import { Board } from 'src/entities/Board';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtService } from '@nestjs/jwt';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Board])],
+  imports: [
+    TypeOrmModule.forFeature([Board]),
+    JwtModule 
+  ],
   controllers: [BoardController],
-  providers: [BoardService, JwtAuthGuard,JwtService], 
+  providers: [BoardService],
   exports: [BoardService]
 })
 export class BoardModule {}

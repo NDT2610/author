@@ -1,5 +1,3 @@
-
-
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { User } from './Users';
 import { List } from './List';
@@ -15,9 +13,12 @@ export class Board {
   @Column({ nullable: true })
   description: string;
 
+  @Column({ default: null }) // Default value is null
+  created_by: number; // Change the type to number (user_id)
+
   @ManyToOne(() => User)
-  @JoinColumn({ name: 'created_by' })
-  created_by: User;
+  @JoinColumn({ name: 'created_by', referencedColumnName: 'user_id' }) // Referenced column in the User entity
+  user: User; // Define a property for the User entity, if needed
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

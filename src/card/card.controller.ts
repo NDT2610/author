@@ -1,16 +1,18 @@
-import { Body, Controller, Get, Param, Post, Put,Delete } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put,Delete, UseGuards } from '@nestjs/common';
 import { CardService } from './card.service';
 import { CreateCardDto } from 'src/dto/create-card.dto';
 import { Card } from 'src/entities/Card';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('card')
+@UseGuards(JwtAuthGuard)
 export class CardController {
   constructor(private readonly  cardService: CardService) {}
 
 
-  @Post()
-  async createCard(@Body() createCardDto: CreateCardDto): Promise<Card> {
-    return this.cardService.createCard(createCardDto);
+  @Post('listId')
+  async createCard(@Param('listId') listId: number, @Body() createCardDto: CreateCardDto): Promise<Card> {
+    return this.cardService.createCard(createCardDto, listId);
   }
 
   @Get()

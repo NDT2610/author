@@ -1,18 +1,22 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable,  } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateListDto } from 'src/dto/create-list.dto';
 import { List } from 'src/entities/List';
 import { Repository } from 'typeorm';
 
 @Injectable()
+
 export class ListService {
   constructor(
     @InjectRepository(List)
     private readonly listRepository: Repository<List>
   ){}
 
-  async createList(createListDto: CreateListDto): Promise<List>{
-    const newList = this.listRepository.create(createListDto);
+  async createList(createListDto: CreateListDto, boardId: number): Promise<List> {
+    const newList = this.listRepository.create({
+      ...createListDto,
+      board_id: boardId, 
+    });
     return await this.listRepository.save(newList);
   }
 

@@ -1,14 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ListService } from './list.service';
 import { CreateListDto } from 'src/dto/create-list.dto';
 import { List } from 'src/entities/List';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 @Controller('list')
+@UseGuards(JwtAuthGuard)
 export class ListController {
   constructor(private readonly listService: ListService) {}
 
-  @Post()
-  async createList(@Body() createListDto: CreateListDto): Promise<List>{
-    return this.listService.createList(createListDto);
+  @Post(':boardId')
+  async createList(@Param('boardId') boardId: number, @Body() createListDto: CreateListDto): Promise<List>{
+    return this.listService.createList(createListDto, boardId);
   }
 
   @Get()

@@ -1,12 +1,11 @@
-// board.controller.ts
-
-import { Controller, Get, Post, Body, Param, Put, Delete, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete, Req, UseGuards } from '@nestjs/common';
 import { BoardService } from './board.service';
-import { Board } from '../entities/board';  // Assuming you have a Board entity
-import { CreateBoardDto } from '../dto/create-board.dto'; // Assuming you have a DTO for creating boards
-import { JwtAuthGuard  } from 'src/auth/jwt-auth.guard';
+import { Board } from '../entities/board';
+import { CreateBoardDto } from '../dto/create-board.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+
 @Controller('boards')
-@UseGuards(JwtAuthGuard )
+@UseGuards(JwtAuthGuard)
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
@@ -20,17 +19,15 @@ export class BoardController {
     return this.boardService.getBoardById(id);
   }
 
-  
   @Post()
   async createBoard(@Body() createBoardDto: CreateBoardDto, @Req() request): Promise<Board> {
-    const { user } = request; 
-    return this.boardService.createBoard(createBoardDto, user.user_id);
+    const { user } = request;
+    return this.boardService.createBoard(createBoardDto, user.id);
   }
+
   @Put(':id')
   async updateBoard(@Param('id') id: number, @Body() updateBoardDto: Partial<Board>): Promise<Board> {
-    
     return this.boardService.updateBoard(id, updateBoardDto);
-
   }
 
   @Delete(':id')

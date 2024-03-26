@@ -1,6 +1,6 @@
 // src/auth/auth.controller.ts
 
-import { Controller, Post, Body, ValidationPipe } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe,} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupDto } from '../dto/signup.dto';
 import { LoginDto } from '../dto/login.dto';
@@ -18,4 +18,10 @@ export class AuthController {
   async login(@Body(ValidationPipe) loginDto: LoginDto): Promise<{ accessToken: string }> {
     return this.authService.login(loginDto);
   }
+
+  @Post('logout')
+  async logout(){
+    
+  }
+
 }

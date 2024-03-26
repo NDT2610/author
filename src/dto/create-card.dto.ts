@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreateCardDto{
   @IsNotEmpty()
@@ -8,4 +8,8 @@ export class CreateCardDto{
   @IsOptional()
   @IsString()
   readonly description?: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  listId: number;
 }

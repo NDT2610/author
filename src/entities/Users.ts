@@ -1,6 +1,6 @@
 // src/users/user.entity.ts
 
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany,  } from 'typeorm';
 import { Board } from './Board'; // Assuming you have a Board entity
 
 @Entity()
