@@ -41,8 +41,9 @@ export class CardService {
     return this.cardRepository.findOne(data);
   }
 
-  async deleteCard(data:any) {
-    return await this.cardRepository.delete(data.id);
-  }
+  async deleteCardById(cardId: number): Promise<void> {
+    await this.cardRepository.delete(cardId);
+}
+
 
 }

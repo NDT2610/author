@@ -31,6 +31,6 @@ export class CardController {
   }
   @Delete( ':id' )
   async deleteList(@Param('id') id: number) {
-    return this.cardService.deleteCard(id);
+    return this.cardService.deleteCardById(id);
   }
 }
