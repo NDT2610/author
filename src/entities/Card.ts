@@ -13,6 +13,9 @@ export class Card {
 
   @Column({ nullable: true })
   description: string;
+  
+  @Column({default: 0})
+  orderCard: number
 
   @Column()
   list_id: number;

@@ -12,9 +12,18 @@ export class CardService {
   ){}
 
   async createCard(createCardDto: CreateCardDto, listId: number): Promise<Card> {
+    const maxOrderCard = await this.cardRepository
+      .createQueryBuilder('card')
+      .select("MAX(card.orderCard)",'maxOrderCard')
+      .where('card.list_id = :listId', {listId} )
+      .getRawOne();
+
+      const nextOrderCard = (maxOrderCard.maxOrderCard || 0) +1;
+    
     const newCard = this.cardRepository.create({
       ...createCardDto,
       list_id: listId,
+      orderCard: nextOrderCard
     });
     return this.cardRepository.save(newCard);
   }
@@ -32,8 +41,8 @@ export class CardService {
     return this.cardRepository.findOne(data);
   }
 
-  async deleteCard(data:any): Promise<void> {
-    await this.cardRepository.delete(data.id);
+  async deleteCard(data:any) {
+    return await this.cardRepository.delete(data.id);
   }
 
 }

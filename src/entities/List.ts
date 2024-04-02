@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn} from 'typeorm';
 import { Board } from './Board'; 
 import { Card } from './Card'; 
 
@@ -13,6 +13,9 @@ export class List {
   @Column()
   board_id: number;
 
+  @Column({default: 0})
+  orderlist: number;
+
   // Assuming many lists can belong to one board
   @ManyToOne(() => Board, board => board.lists)
   @JoinColumn({ name: 'board_id' }) // Specify the foreign key column name
@@ -22,4 +25,5 @@ export class List {
   @OneToMany(() => Card, card => card.list)
   @JoinColumn({ name: 'list_id' }) // Specify the foreign key column name
   cards: Card[];
+
 }

@@ -19,6 +19,7 @@ export class Board {
   @ManyToOne(() => User)
   @JoinColumn({ name: 'created_by', referencedColumnName: 'user_id' }) // Referenced column in the User entity
   user: User; // Define a property for the User entity, if needed
+  
 
   @Column({ default: () => 'CURRENT_TIMESTAMP' })
   created_at: Date;

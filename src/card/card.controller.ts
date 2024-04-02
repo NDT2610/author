@@ -10,7 +10,7 @@ export class CardController {
   constructor(private readonly  cardService: CardService) {}
 
 
-  @Post('listId')
+  @Post(':listId')
   async createCard(@Param('listId') listId: number, @Body() createCardDto: CreateCardDto): Promise<Card> {
     return this.cardService.createCard(createCardDto, listId);
   }
@@ -30,7 +30,7 @@ export class CardController {
     return this.cardService.updateCard(id, updateCardDto);
   }
   @Delete( ':id' )
-  async deleteList(@Param('id') id: number): Promise<void> {
+  async deleteList(@Param('id') id: number) {
     return this.cardService.deleteCard(id);
   }
 }

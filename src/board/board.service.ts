@@ -21,8 +21,10 @@ export class BoardService {
     const newBoard = this.boardRepository.create({ ...createBoardDto, created_by: createdBy });
     return this.boardRepository.save(newBoard);
   }
-  async getBoardById(data: any): Promise<Board> {
-    return this.boardRepository.findOne(data);
+  async getBoardByCreatedId(created_by: number): Promise<Board[] | undefined> {
+    return this.boardRepository.createQueryBuilder('board')
+     .where('board.created_by = :created_by', { created_by })
+     .getMany();
   }
 
   async updateBoard(data: any, boardData: Partial<Board>): Promise<Board> {

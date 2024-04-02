@@ -19,8 +19,8 @@ export class ListController {
   }
 
   @Get(':id')
-  async getListById(@Param('id') id: number): Promise<List> {
-    return this.listService.getListById(id);
+  async getListByBoardId(@Param('id') id: number): Promise<List[]> {
+    return this.listService.getListByBoardId(id);
   }
 
   @Put(':id')

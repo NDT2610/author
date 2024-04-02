@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateListDto } from 'src/dto/create-list.dto';
 import { List } from 'src/entities/List';
 import { Repository } from 'typeorm';
-
 @Injectable()
 
 export class ListService {
@@ -13,11 +12,27 @@ export class ListService {
   ){}
 
   async createList(createListDto: CreateListDto, boardId: number): Promise<List> {
+    // Fetch the maximum orderlist value for lists belonging to the same board
+    const maxOrderList = await this.listRepository
+      .createQueryBuilder('list')
+      .select('MAX(list.orderlist)', 'maxOrderList')
+      .where('list.board_id = :boardId', { boardId })
+      .getRawOne();
+
+    // Determine the orderList value for the new list
+    const nextOrderList = (maxOrderList.maxOrderList || 0) + 1;
+
+    // Create the new list with the calculated orderList value
     const newList = this.listRepository.create({
       ...createListDto,
-      board_id: boardId, 
+      board_id: boardId,
+      orderlist: nextOrderList,
     });
-    return await this.listRepository.save(newList);
+
+    // Save the new list to the database
+    const savedList = await this.listRepository.save(newList);
+
+    return savedList;
   }
 
   async getAllLists():  Promise<List[]> {
@@ -28,6 +43,12 @@ export class ListService {
     return this.listRepository.findOne(data);
   }
 
+  async getListByBoardId(board_id: number): Promise<List[] | undefined> {
+    return this.listRepository.createQueryBuilder('list')
+      .where('list.board_id = :board_id', { board_id })
+      .getMany();
+  }
+  
   async updateList(data: any, updateListDto: Partial<CreateListDto>): Promise<List> {
     await this.listRepository.update(data, updateListDto);
     return this.listRepository.findOne(data);
@@ -36,4 +57,5 @@ export class ListService {
   async deleteList(id: number): Promise<void> {
     await this.listRepository.delete(id);
   }
+
 }
