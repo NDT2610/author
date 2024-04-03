@@ -49,10 +49,11 @@ export class ListService {
       .getMany();
   }
   
-  async updateList(data: any, updateListDto: Partial<CreateListDto>): Promise<List> {
-    await this.listRepository.update(data, updateListDto);
-    return this.listRepository.findOne(data);
+  async updateList(id: number, updateListDto: Partial<CreateListDto>): Promise<List> {
+    await this.listRepository.update({list_id: id}, updateListDto);
+    return this.listRepository.findOneBy({list_id: id});
   }
+  
 
   async deleteList(id: number): Promise<void> {
     await this.listRepository.delete(id);

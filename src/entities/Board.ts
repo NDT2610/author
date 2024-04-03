@@ -16,6 +16,9 @@ export class Board {
   @Column({ default: null }) // Default value is null
   created_by: number; // Change the type to number (user_id)
 
+  @Column({default: 'Public'})
+  type: string;
+
   @ManyToOne(() => User)
   @JoinColumn({ name: 'created_by', referencedColumnName: 'user_id' }) // Referenced column in the User entity
   user: User; // Define a property for the User entity, if needed

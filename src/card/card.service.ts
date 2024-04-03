@@ -25,15 +25,23 @@ export class CardService {
       list_id: listId,
       orderCard: nextOrderCard
     });
-    return this.cardRepository.save(newCard);
+    const saveCard =  await this.cardRepository.save(newCard);
+
+    return saveCard;
   }
 
   async  findAll(): Promise<Card[]> {
       return await this.cardRepository.find()
   }
 
-  async findCardById(data: any): Promise<Card>{
-    return  await this.cardRepository.findOne(data)
+  async findCardById(id: number): Promise<Card>{
+    return  await this.cardRepository.findOneBy({card_id: id})
+  }
+
+  async findCardByListId(id: number): Promise<Card[]>{
+    return this.cardRepository.createQueryBuilder('card')
+    .where('card.list_id = :id',{id})
+    .getMany();
   }
 
   async updateCard(data: any, updateCardDto: Partial<CreateCardDto>) : Promise<Card> {

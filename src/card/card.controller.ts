@@ -25,6 +25,11 @@ export class CardController {
     return this.cardService.findCardById(id);
   }
 
+  @Get('get/:id')
+  async getCardByListId(@Param('id') id: number): Promise<Card[]> {
+    return this.cardService.findCardByListId(id);
+  }
+
   @Put(':id')
   async updateCard(@Param('id') id: number, @Body() updateCardDto: Partial<CreateCardDto>): Promise<Card> {
     return this.cardService.updateCard(id, updateCardDto);
