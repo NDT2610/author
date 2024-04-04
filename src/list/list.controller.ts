@@ -3,6 +3,7 @@ import { ListService } from './list.service';
 import { CreateListDto } from 'src/dto/create-list.dto';
 import { List } from 'src/entities/List';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { UpdateListDto } from 'src/dto/update-list-id.dto';
 @Controller('list')
 @UseGuards(JwtAuthGuard)
 export class ListController {
@@ -27,6 +28,12 @@ export class ListController {
   async updateList(@Param('id') id: number,
   @Body() updateListDto: Partial<CreateListDto>) : Promise <List>{
     return this.listService.updateList(id, updateListDto);
+  }
+
+  @Put('update/:id')
+  async updateListId(@Param('id') id: number,
+  @Body() updateListDto: UpdateListDto) : Promise <List>{
+    return this.listService.updateListId(id, updateListDto);
   }
 
   @Delete( ':id' )

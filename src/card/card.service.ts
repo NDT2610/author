@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCardDto } from 'src/dto/create-card.dto';
+import { UpdateCardDto } from 'src/dto/update-card-id';
 import { Card } from 'src/entities/Card';
 import { Repository } from 'typeorm';
 
@@ -40,6 +41,7 @@ export class CardService {
 
   async findCardByListId(id: number): Promise<Card[]>{
     return this.cardRepository.createQueryBuilder('card')
+    .orderBy( "card.orderCard", "ASC" )
     .where('card.list_id = :id',{id})
     .getMany();
   }
@@ -47,6 +49,11 @@ export class CardService {
   async updateCard(data: any, updateCardDto: Partial<CreateCardDto>) : Promise<Card> {
     await this.cardRepository.update(data.id , updateCardDto);
     return this.cardRepository.findOne(data);
+  }
+
+  async updateCardId(id: number, updateCardDto: UpdateCardDto) : Promise<Card> {
+    await this.cardRepository.update(id, updateCardDto);
+    return this.cardRepository.findOneBy({card_id: id});
   }
 
   async deleteCardById(cardId: number): Promise<void> {

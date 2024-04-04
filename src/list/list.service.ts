@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateListDto } from 'src/dto/create-list.dto';
 import { List } from 'src/entities/List';
 import { Repository } from 'typeorm';
+import { UpdateListDto } from 'src/dto/update-list-id.dto';
 @Injectable()
 
 export class ListService {
@@ -45,11 +46,17 @@ export class ListService {
 
   async getListByBoardId(board_id: number): Promise<List[] | undefined> {
     return this.listRepository.createQueryBuilder('list')
+      .orderBy("orderlist", "ASC")
       .where('list.board_id = :board_id', { board_id })
       .getMany();
   }
   
   async updateList(id: number, updateListDto: Partial<CreateListDto>): Promise<List> {
+    await this.listRepository.update({list_id: id}, updateListDto);
+    return this.listRepository.findOneBy({list_id: id});
+  }
+
+  async updateListId(id: number, updateListDto: UpdateListDto): Promise<List> {
     await this.listRepository.update({list_id: id}, updateListDto);
     return this.listRepository.findOneBy({list_id: id});
   }
