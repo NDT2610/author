@@ -32,7 +32,7 @@ export class AuthService {
     await this.userService.create({ username, email, password: hashedPassword });
   }
 
-  async login(loginDto: LoginDto): Promise<{  accessToken: string, userName: string, id: number }> {
+  async login(loginDto: LoginDto): Promise<{  accessToken: string, userName: string, id: number, email: string }> {
     const { username, password } = loginDto;
 
     // Find user by username
@@ -47,8 +47,8 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const accessToken = this.jwtService.sign({ username: user.username, id: user.user_id });
-    return { accessToken,userName: user.username, id: user.user_id };
+    const accessToken = this.jwtService.sign({ username: user.username, id: user.user_id, email: user.email});
+    return { accessToken,userName: user.username, id: user.user_id, email: user.email };
   }
 
   async getUserById(id: number): Promise<User | null> {
@@ -56,4 +56,7 @@ export class AuthService {
     return user;
   }
   
+  async deleteUser(id: number) : Promise<void> {
+    await this.userRepository.delete(id);
+  }
 }

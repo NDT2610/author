@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Put, Delete, Req, UseGuards } from '@nestjs/common';
 import { BoardService } from './board.service';
-import { Board } from '../entities/board';
+import { Board } from '../entities/Board';
 import { CreateBoardDto } from '../dto/create-board.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 

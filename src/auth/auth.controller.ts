@@ -1,6 +1,6 @@
 // src/auth/auth.controller.ts
 
-import { Controller, Post, Body, ValidationPipe,Res } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe,Res, Delete, Param } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupDto } from '../dto/signup.dto';
 import { LoginDto } from '../dto/login.dto';
@@ -22,9 +22,13 @@ export class AuthController {
 
   @Post('logout')
   async logout(@Res() res: Response) {
-    // Clear access token from local storage
     res.setHeader('Set-Cookie', [`accessToken=; Max-Age=0; Path=/; HttpOnly`]);
     return res.send();
+  }
+
+  @Delete('id')
+  async deleteUser(@Param('id') id: number): Promise<void> {
+    await this.authService.deleteUser(id);
   }
 
 }

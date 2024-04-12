@@ -9,6 +9,9 @@ import { Card } from './entities/Card';
 import { List } from './entities/List';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { MailModule } from './mail/mail.module';
+import { ProfileModule } from './profile/profile.module';
+import { Profile } from './entities/Profile';
 
 
 @Module({
@@ -19,9 +22,9 @@ import { AuthModule } from './auth/auth.module';
     username: 'root',
     password: 'Thang@26102001',
     database: 'security',
-    entities: [User, Board, List, Card],
+    entities: [User, Board, List, Card, Profile],
     synchronize: true
-  }),  BoardModule, ListModule, CardModule, AuthModule, UserModule
+  }),  BoardModule, ListModule, CardModule, AuthModule, UserModule, MailModule, ProfileModule
 ],
 })
 export class AppModule {}

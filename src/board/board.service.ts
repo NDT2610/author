@@ -3,7 +3,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Board } from '../entities/board'; // Assuming you have a Board entity
+import { Board } from '../entities/Board'; // Assuming you have a Board entity
 import { CreateBoardDto } from 'src/dto/create-board.dto';
 
 @Injectable()
