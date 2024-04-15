@@ -18,10 +18,17 @@ export class User {
   @Column()
   password: string;
 
+  @Column({ nullable: true })
+  emailVerificationToken: string;
+
+  @Column({ default: false })
+  emailVerified: boolean;
+
   // Assuming one user can have multiple boards
   @OneToMany(() => Board, board => board.created_by)
   boards: Board[];
 
   @OneToOne(() => Profile, (profile) => profile.userId) // specify inverse side as a second parameter
   profile: Profile
+  static id: any;
 }
