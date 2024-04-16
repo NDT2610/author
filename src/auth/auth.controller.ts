@@ -1,6 +1,6 @@
 // src/auth/auth.controller.ts
 
-import { Controller, Post, Body, ValidationPipe,Res, Delete, Param, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe,Res, Delete, Param, Query } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignupDto } from '../dto/signup.dto';
 import { LoginDto } from '../dto/login.dto';
@@ -15,7 +15,7 @@ export class AuthController {
     await this.authService.signup(signupDto);
   }
 
-  @Get('confirm')
+  @Post('confirm')
   async confirmUsername(@Query('token') token: string): Promise<{ message: string }> {
     await this.authService.confirmUsername(token);
     return { message: 'Email confirmed successfully' };

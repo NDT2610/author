@@ -6,12 +6,10 @@ import { JwtService } from '@nestjs/jwt';
 import { SignupDto } from '../dto/signup.dto';
 import { LoginDto } from '../dto/login.dto';
 import * as bcrypt from 'bcrypt';
-import { User } from 'src/entities/Users';
 import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
-  userRepository: any;
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
@@ -53,8 +51,16 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
-    user.emailVerified = true;
-    await this.userRepository.save(user);
+    // Add emailVerified property to user object
+    const userUpdate = {...user, emailVerified: true };
+
+    try {
+      // Save the updated user object
+      await this.userService.create(userUpdate);
+    } catch (error) {
+      // Handle error
+      console.error(error);
+    }
   }
 
   async login(loginDto: LoginDto): Promise<{  accessToken: string, userName: string, id: number, email: string }> {
@@ -72,16 +78,16 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    const verify = user.emailVerified;
+    if (!verify) {
+      throw new UnauthorizedException('Email not verified');
+    }
+
     const accessToken = this.jwtService.sign({ username: user.username, id: user.user_id, email: user.email});
     return { accessToken,userName: user.username, id: user.user_id, email: user.email };
   }
-
-  async getUserById(id: number): Promise<User | null> {
-    const user = await this.userRepository.getUserById(id);
-    return user;
-  }
   
   async deleteUser(id: number) : Promise<void> {
-    await this.userRepository.delete(id);
+    await this.userService.remove(id);
   }
 }

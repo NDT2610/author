@@ -20,16 +20,19 @@ export class MailService {
   async sendConfirmationEmail(email: string, token: string): Promise<void> {
     const confirmationLink = `http://localhost:8000/auth/confirm?token=${token}`;
 
-    const mailOptions: nodemailer.SendMailOptions = {
-      from: '"Your App" <noreply@example.com>',
+    const mailOptions = {
+      from: 'your-email@gmail.com',
       to: email,
-      subject: 'Confirm Email',
-      text: `Click the link to confirm your email: ${confirmationLink}`,
+      subject: 'Account Activation',
+      text: `Click on the link to activate your account.`,
       html: `
-        <p>Click the link to confirm your email:</p>
-        <a href="${confirmationLink}">Confirm Email</a>
+        <p>Click on the link to activate your account:</p>
+        <form action="${confirmationLink}" method="post" id="confirmationForm" style="display: none;">
+          <input type="hidden" name="token" value="${token}">
+        </form>
+        <button type="submit" form="confirmationForm" value="Submit" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: #ffffff; border: none; cursor: pointer;">Activate Account</button>
       `,
-    };
+    };  
 
     try {
       await this.transporter.sendMail(mailOptions);
