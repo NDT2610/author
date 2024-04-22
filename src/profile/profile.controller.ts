@@ -25,9 +25,9 @@ export class ProfileController {
     return await this.profileService.getProfileById(id);
   }
 
-  @Put('id')
-  async updateProfile(@Param('id') id: number, @Body() createProfileDto: CreateProfileDto): Promise<Profile>{
-    return await this.profileService.updateProfile(id, createProfileDto);
+  @Put(':id')
+  async updateProfile(@Param('id') id: number, @Body() updateProfileDto: Partial<CreateProfileDto>): Promise<Profile>{
+    return await this.profileService.updateProfile(id, updateProfileDto);
   }
 
   @Delete('id')
