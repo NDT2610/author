@@ -24,7 +24,7 @@ export class CardService {
     const newCard = this.cardRepository.create({
       ...createCardDto,
       list_id: listId,
-      orderCard: nextOrderCard
+      orderCard: `card-id-${nextOrderCard}`
     });
     const saveCard =  await this.cardRepository.save(newCard);
 

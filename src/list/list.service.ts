@@ -27,7 +27,7 @@ export class ListService {
     const newList = this.listRepository.create({
       ...createListDto,
       board_id: boardId,
-      orderlist: nextOrderList,
+      orderlist: `column-id-${nextOrderList}`,
     });
 
     // Save the new list to the database

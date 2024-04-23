@@ -1,3 +1,3 @@
 export class UpdateCardDto {
-  orderCard: number;
+  orderCard: string;
 }
