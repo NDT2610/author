@@ -1,3 +1,3 @@
 export class UpdateListDto {
-  orderlist: string;
+  orderlist: number;
 }

@@ -15,7 +15,7 @@ export class Card {
   description: string;
   
   @Column({default: 0})
-  orderCard: string;
+  orderCard: number;
 
   @Column()
   list_id: number;

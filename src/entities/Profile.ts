@@ -13,7 +13,7 @@ export class Profile {
   @Column()
   lastName: string;
 
-  @Column({default: null})
+  @Column()
   email: string;
 
   @Column()
@@ -25,10 +25,10 @@ export class Profile {
   @Column()
   address: string;
 
-  @Column({ default: 'other' }) 
+  @Column({ default: "orther" }) 
   gender: string;
 
-  @Column({default: null})
+  @Column()
   userId: number
 
   @OneToOne(() => User)

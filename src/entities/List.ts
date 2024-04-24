@@ -14,7 +14,7 @@ export class List {
   board_id: number;
 
   @Column({default: 0})
-  orderlist: string;
+  orderlist: number;
 
   // Assuming many lists can belong to one board
   @ManyToOne(() => Board, board => board.lists)
